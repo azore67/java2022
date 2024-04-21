@@ -1,40 +1,67 @@
 package aeroplane
-data class Seat(val row: Int, val letter: Char) {
+class Seat(val row: Int, val letter: Char) {
+// variable for starting row, ending row, starting letter, ending letter
+    private val startRow = 1
+    private val endRow = 50
+    private val startLetter = 'A'
+    private val endLetter = 'F'
+    private val exitRowArray = intArrayOf(1,10,30)
+
+
+    val CREW_FIRST_ROW = startRow
+    val CREW_LAST_ROW = startRow
+    val BUSINESS_FIRST_ROW = 2
+    val BUSINESS_LAST_ROW  = 15
+    val ECONOMY_FIRST_ROW = 16
+    val ECONOMY_LAST_ROW  = endRow
+
+
+    private val CREW_START = Seat(CREW_FIRST_ROW,startLetter)
+    private val CREW_LAST  = Seat(CREW_LAST_ROW,startLetter)
+    private val BUSINESS_FIRST = Seat(BUSINESS_FIRST_ROW, startLetter)
+    private val BUSINESS_LAST  = Seat(BUSINESS_LAST_ROW, endLetter)
+    private val ECONOMY_FIRST = Seat(ECONOMY_FIRST_ROW, startLetter)
+    private val ECONOMY_LAST = Seat(ECONOMY_LAST_ROW, endLetter)
+
+
     init {
-        if (row < 1 || row > 26) {
-            throw IllegalArgumentException("Row number must be between 1 and 26")
+        if (row !in startRow..endRow || letter !in startLetter..endLetter ) {
+            throw IllegalArgumentException("Invalid Seat Parameter")
         }
-        if (!letter.isLetter() || letter !in 'A'..'Z') {
-            throw IllegalArgumentException("aeroplane.Seat letter should be between A and Z")
-        }
+
     }
     override fun toString(): String {
-        val number =
-            if (row <=9){
-                "0$row"
-        }
-        else {
-            row.toString()
-            }
-        return "number$letter"
+        return "%02d%c".format(row,letter)
     }
      fun isEmergencyExit(): Boolean {
-       return (row == 1 || row == 10 || row == 30)
+       return row in exitRowArray
     }
      fun compare(other:Seat): Boolean {
         return this.row < other.row || this.row == other.row && this.letter < other.letter
     }
 
-     fun next(): Seat {
-        if (row == 50 && letter == 'F') {
+    fun hasNext(): Boolean {
+        return (row < endRow || (row == endRow && letter < endLetter ))
+    }
+
+
+
+//     the following is to give info of the next seat
+
+    fun next(): Seat {
+        if (!hasNext()) {
             throw NoSuchElementException("this is the last seat")
         }
         else {
-            if (letter == 'F') {
-                return Seat( row+1, 'A')
+            if (letter == endLetter) {
+                return Seat( row+1, startLetter)
             }
             return Seat(row, letter + 1)
         }
 
     }
+}
+
+fun main() {
+
 }
