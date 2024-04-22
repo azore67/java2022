@@ -60,6 +60,9 @@ class Seat(val row: Int, val letter: Char) {
         }
 
     }
+    override fun equals(other: Any?): Boolean {
+        return (other is Seat && this.row == other.row && this.letter == other.letter)
+    }
 }
 
 fun main() {

@@ -4,11 +4,11 @@ open class NonCrew(firstName: String, lastName:String, val age: Int) :Passenger(
     val adultAge = 18
     override fun isAdult(): Boolean = age >= adultAge
     fun getName(): String{
-        return "first name: $firstName"
+        return "first name: $firstName, last name : $surname"
     }
 
     override fun toString(): String {
-       return ""
+       return "${getName()},$age"
     }
 
 }
